@@ -10,9 +10,6 @@ Implemente pelo menos 1 elemento móvel controlado pelo jogador
  use círculos e retângulos para representar os elementos do jogo.
  */
 
-//Criar matriz móvel de inimigos - OK
-//Criar mecânica de colisão acerto de tiro - Parcialmente feita (Corrigir posições da colisão)
-
 int scoreP1=0, scoreP2=0, hiScore=0;
 boolean collisionDetected = false;
 NavePlayer p1;
@@ -26,7 +23,6 @@ void setup() {
   for (int i = 0; i < e1.length; i++) {//Colunas de Inimigos
     for (int j = 0; j < e1[i].length; j++) {//Linhas de inimigos
       e1[i][j] = new NaveEnemy((j*90)+30, i*60+10);
-      e1[i][j].update(e1[i][j].enemXpos, e1[i][j].enemYpos);
     }
   }
 }
@@ -45,8 +41,11 @@ void draw() {
 
   for (int i = 0; i < e1.length; i++) {//Colunas de Inimigos
     for (int j = 0; j < e1[i].length; j++) {//Linhas de inimigos
+    if(e1[i][j].enemyAlive == true){
       e1[i][j].update(e1[i][j].enemXpos+45, e1[i][j].enemYpos+120);
-      collisionDetector(e1[i][j].enemXpos, e1[i][j].enemYpos, p1.t1.xposAt, p1.t1.ypos);
+    }
+
+      //collisionDetector(e1[i][j].enemXpos, e1[i][j].enemYpos, p1.t1.xposAt, p1.t1.ypos);
     }
   }
 
@@ -63,16 +62,39 @@ void draw() {
 
 class NaveEnemy {
   float enemXpos=0, enemYpos=0, speed=4.0;
+  int enemyR=30;
+  boolean enemyAlive;
 
   NaveEnemy(float x, float y) {
     enemXpos = x;
     enemYpos = y;
+    enemyAlive = true;
   }
 
   void update(float x, float y) {
     fill(255);
-    ellipse(x, y, 35, 25);
+    ellipseMode(CENTER);
+    circle(x, y, enemyR);
+    collision(p1.t1.xposAt, p1.t1.ypos);
   }
+
+  boolean collision(float xShot, float yShot) {
+    float distX = xShot - (enemXpos+45);
+    float distY = yShot - (enemYpos+120);
+    float distHipotenusa = sqrt( sq(distX) + sq(distY) );
+
+    if (distHipotenusa <= enemyR) {
+      rect(enemXpos+45, enemYpos+120, 25, 25);
+      collisionDetected = true;
+      enemyAlive = false;
+      scoreP1++;
+      return true;
+    } else {
+      enemyAlive = true;
+      return false;
+    }
+  }
+  //collisionDetector(e1[i][j].enemXpos, e1[i][j].enemYpos, p1.t1.xposAt, p1.t1.ypos);
 }
 
 class NaveShot {
@@ -91,7 +113,7 @@ class NaveShot {
     if (ypos < 0) {
       ypos = height-100;
       xposAt = xposIn;
-    } else if(collisionDetected == true){
+    } else if (collisionDetected == true) {
       ypos = height-100;
       xposAt = xposIn;
       collisionDetected = false;
@@ -136,19 +158,3 @@ class NavePlayer {
     t1.update(xpos);
   }
 }
-
-void collisionDetector(float enemXpos, float enemYpos, float shotXPos, float shotYPos) {
-  for (int i = 0; i < e1.length; i++) {//Colunas de Inimigos
-    for (int j = 0; j < e1[i].length; j++) {//Linhas de inimigos
-      if ((shotXPos > (enemXpos)) && (shotXPos < (enemXpos+45)) 
-        && ((shotYPos > (enemYpos)) && (shotYPos < (enemYpos+12.5)))) {
-        //println("Colidiu");
-        rect(enemXpos+45,enemYpos,35,25);
-        collisionDetected = true;
-        scoreP1++;
-      } else {
-        //println("Não colidiu");
-      }
-    }
-  }
-} 
