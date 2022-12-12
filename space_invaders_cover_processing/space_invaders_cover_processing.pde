@@ -1,15 +1,5 @@
 // AP1 - Programação 2
 // Aluno: Wesley Barbosa - 536186
-/*
-Implemente pelo menos 1 elemento móvel controlado pelo jogador
- (mouse, teclado, etc) e a mecânica básica do jogo.
- Deve existir algum tipo de contagem (pontos, vidas, etc).
- O cenário deve restringir os movimentos de alguma maneira
- (paredes, obstáculos, etc).
- Não são necessários elemento visuais,
- use círculos e retângulos para representar os elementos do jogo.
- */
-
 
 int hiScore=0;
 boolean collisionDetected = false;
@@ -41,15 +31,21 @@ void draw() {
   textAlign(CENTER, CENTER);
   text("HI-SCORE\n" + hiScore, width/6, height/15);
 
-  //PowerUps - Superior/Direita
-
 
   p1.update();
 
   for (int i = 0; i < e1.length; i++) {//Colunas de Inimigos
     for (int j = 0; j < e1[i].length; j++) {//Linhas de inimigos
-      if (e1[i][j].enemyAlive == true) {
-        e1[i][j].update(e1[i][j].enemXpos+45, e1[i][j].enemYpos+120);
+      e1[i][j].update(e1[i][j].enemXpos+45, e1[i][j].enemYpos+120);
+      if (e1[i][j].collisionDrop(p1.xpos, p1.ypos) == true) {
+        for (int k = 0; k < 4; k++) {
+          if (powerUps[k].status == false) {
+            int randomPower = int(random(0, 3));
+            powerUps[k].status = true;
+            powerUps[k].type = randomPower;
+          }
+        }
+      } else {
       }
     }
   }
@@ -57,8 +53,6 @@ void draw() {
   for (int i = 0; i < powerUps.length; i++) {
     powerUps[i].update(powerUps[i].xpos, powerUps[i].ypos);
 
-
-    // Quando o PowerUp for ativado é preciso substituir no vetor(lista de power ups)
     if (powerUps[i].status == true && powerUps[i].type == 1) {
       powerUps[i] = new PowerUpTrishot(powerUps[i].xpos);
       p1.naveTriShot(p1.xpos);
