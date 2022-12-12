@@ -7,9 +7,19 @@ NavePlayer p1;
 NaveShot t1, t2, t3;
 NaveEnemy e1[][];
 PowerUp powerUps[];
+PImage trishot, speedestShot, largeEnemies, pointsX2, randomPower;
+
 
 void setup() {
   size(600, 600);
+  
+  trishot = loadImage("trishot.png");
+  speedestShot = loadImage("speedest-shot.png");
+  largeEnemies = loadImage("large-enemies.png");
+  pointsX2 = loadImage("double-points.png");
+  randomPower = loadImage("random-power.png");
+  
+  
   p1 = new NavePlayer(width/2);
 
   e1 = new NaveEnemy[5][6];
@@ -38,7 +48,7 @@ void draw() {
     for (int j = 0; j < e1[i].length; j++) {//Linhas de inimigos
       e1[i][j].update(e1[i][j].enemXpos+45, e1[i][j].enemYpos+120);
       if (e1[i][j].collisionDrop(p1.xpos, p1.ypos) == true && e1[i][j].cooldownDrop != 0) {
-        int randomPower = int(random(0, 3));
+        int randomPower = int(random(0, 4));
         if (0 < powerUps[randomPower].cooldown && powerUps[randomPower].cooldown < 300) { //<>//
           powerUps[randomPower].cooldown++; //<>//
         } else { //<>//

@@ -7,9 +7,10 @@ public class PowerUpSpeedestShot extends PowerUp {
     this.drawActivePowerUp(this.xpos, this.ypos);
     this.status = true;
     this.type = 2;
+    drawType2();
   }
   
   void drawType2 (){
-    
+    image(speedestShot, this.xpos-20, this.ypos-20, 40, 40);
   }
 }

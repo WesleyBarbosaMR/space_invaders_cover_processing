@@ -81,6 +81,10 @@ class NavePlayer {
   }
 
   void naveTriShot(float xpos) {
+    noStroke();
+    fill(255);
+    triangle(xpos-20, ypos-25.0, (xpos+8.0)-20, ypos-10.0, (xpos-8.0)-20, ypos-10.0);
+    triangle(xpos+20, ypos-25.0, (xpos+8.0)+20, ypos-10.0, (xpos-8.0)+20, ypos-10.0);
     t1.update(xpos);
     t2.update(xpos-20);
     t3.update(xpos+20);

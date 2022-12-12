@@ -40,7 +40,11 @@ class NaveEnemy {
     enemDropXpos = x;
     enemDropYpos += 2;
     fill(255);
-    circle(enemDropXpos, enemDropYpos, 30);
+    image(randomPower, enemDropXpos-13, enemDropYpos-14, 28, 28);
+    noFill();
+    stroke(255);
+    strokeWeight(4);
+    arc(enemDropXpos, enemDropYpos, 30,30,0,radians(360), OPEN);
     if (collisionDrop(p1.xpos, p1.ypos) == true && cooldownDrop == 0) {
     } else {
       cooldownDrop++;
