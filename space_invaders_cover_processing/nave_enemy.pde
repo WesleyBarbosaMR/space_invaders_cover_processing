@@ -1,15 +1,21 @@
 class NaveEnemy {
   float enemXpos=0, enemYpos=0, speed=4.0;
-  int enemyR=30;
+  int enemyR, scoreMultiplier;
   boolean enemyAlive;
 
   NaveEnemy(float x, float y) {
     enemXpos = x;
     enemYpos = y;
+    enemyR = 30;
+    scoreMultiplier = 0;
     enemyAlive = true;
   }
 
   void update(float x, float y) {
+    drawEnemies(x, y);
+  }
+
+  void drawEnemies(float x, float y) {
     fill(255);
     ellipseMode(CENTER);
     circle(x, y, enemyR);
@@ -22,10 +28,13 @@ class NaveEnemy {
     float distHipotenusa = sqrt( sq(distX) + sq(distY) );
 
     if (distHipotenusa <= enemyR) {
-      rect(enemXpos+45, enemYpos+120, 25, 25);
       collisionDetected = true;
       enemyAlive = false;
-      hiScore++;
+      if (scoreMultiplier > 0) {
+        hiScore+=(scoreMultiplier*2);
+      } else {
+        hiScore++;
+      }
       return true;
     } else {
       enemyAlive = true;

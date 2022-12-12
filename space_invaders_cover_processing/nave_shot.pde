@@ -1,5 +1,5 @@
 class NaveShot {
-  float xposIn, xposAt, yposIn, yposAt, speed=5.0;
+  float xposIn, xposAt, yposIn, yposAt, speed;
   int shotH=20, shotW=5;
 
   NaveShot(float x, float y) {
@@ -7,6 +7,7 @@ class NaveShot {
     xposAt = xposIn;
     yposIn = y - 25.0;
     yposAt = yposIn;
+    speed = 3.0;
   }
 
   void update(float xpos) {
