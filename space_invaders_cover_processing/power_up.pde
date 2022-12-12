@@ -1,6 +1,6 @@
 public class PowerUp {
   float xpos, ypos;
-  int cooldown,type;
+  int cooldown, type;
   boolean status;
 
   public PowerUp(float xpos) {
@@ -12,11 +12,11 @@ public class PowerUp {
   }
 
   public void update(float x, float y) {
-    if(this.status == true && cooldown < 300 && (type != 2 || type != 0)){
-      drawActivePowerUp(x,y);
+    if (this.status == true && cooldown < 300 && (type != 2 || type != 0)) {
+      drawActivePowerUp(x, y);
     } else {
       cooldown = 0;
-      drawInactivePowerUp(x,y);
+      drawInactivePowerUp(x, y);
     }
   }
 

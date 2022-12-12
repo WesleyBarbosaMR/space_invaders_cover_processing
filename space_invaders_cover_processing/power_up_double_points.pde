@@ -5,8 +5,8 @@ public class PowerUpDoublePoints extends PowerUp {
 
     this.update(this.xpos, this.ypos);
     this.drawActivePowerUp(this.xpos, this.ypos);
-    this.status = true;
-    this.type = 2;
+    this.status = true;  
+    this.type = 4;
   }
   
   void drawType4 (){

@@ -1,4 +1,4 @@
-// AP1 - Programação 2
+// AP1 - Programação 2 //<>// //<>//
 // Aluno: Wesley Barbosa - 536186
 
 int hiScore=0;
@@ -37,12 +37,18 @@ void draw() {
   for (int i = 0; i < e1.length; i++) {//Colunas de Inimigos
     for (int j = 0; j < e1[i].length; j++) {//Linhas de inimigos
       e1[i][j].update(e1[i][j].enemXpos+45, e1[i][j].enemYpos+120);
-      if (e1[i][j].collisionDrop(p1.xpos, p1.ypos) == true) {
-        for (int k = 0; k < 4; k++) {
-          if (powerUps[k].status == false) {
-            int randomPower = int(random(0, 3));
-            powerUps[k].status = true;
-            powerUps[k].type = randomPower;
+      if (e1[i][j].collisionDrop(p1.xpos, p1.ypos) == true && e1[i][j].cooldownDrop != 0) {
+        int randomPower = int(random(0, 3));
+        if (0 < powerUps[randomPower].cooldown && powerUps[randomPower].cooldown < 300) { //<>//
+          powerUps[randomPower].cooldown++; //<>//
+        } else { //<>//
+          if (powerUps[randomPower].cooldown == 300) { //<>//
+            powerUps[randomPower].cooldown = 0;
+            e1[i][j].cooldownDrop = 0;
+          } else {
+            powerUps[randomPower].status = true;
+            powerUps[randomPower].type = randomPower+1;
+            e1[i][j].cooldownDrop++;
           }
         }
       } else {
@@ -52,7 +58,6 @@ void draw() {
 
   for (int i = 0; i < powerUps.length; i++) {
     powerUps[i].update(powerUps[i].xpos, powerUps[i].ypos);
-
     if (powerUps[i].status == true && powerUps[i].type == 1) {
       powerUps[i] = new PowerUpTrishot(powerUps[i].xpos);
       p1.naveTriShot(p1.xpos);
@@ -81,22 +86,6 @@ void draw() {
       }
     } else {
       p1.naveShot(p1.xpos);
-    }
-  }
-
-  if (keyPressed) {
-    if (key == '1') {
-      powerUps[0].status = true;
-      powerUps[0].type = 1;
-    } else if (key == '2') {
-      powerUps[1].status = true;
-      powerUps[1].type = 2;
-    } else if (key == '3') {
-      powerUps[2].status = true;
-      powerUps[2].type = 3;
-    } else if (key == '4') {
-      powerUps[3].status = true;
-      powerUps[3].type = 4;
     }
   }
 

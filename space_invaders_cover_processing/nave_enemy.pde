@@ -1,7 +1,7 @@
 class NaveEnemy {
   float enemXpos=0, enemYpos=0, speed=4.0, enemDropXpos, enemDropYpos;
-  int enemyR, scoreMultiplier;
-  boolean enemyAlive;
+  int enemyR, scoreMultiplier, cooldownDrop;
+  boolean enemyAlive, dropAcquired;
   int i = int(random(0, 30));
 
 
@@ -13,6 +13,7 @@ class NaveEnemy {
     enemyR = 30;
     scoreMultiplier = 0;
     enemyAlive = true;
+    dropAcquired = false;
   }
 
   void update(float x, float y) {
@@ -20,7 +21,10 @@ class NaveEnemy {
       drawEnemies(x, y);
     } else {
       if (i<=15) {
-        bonusDrop(x);
+        if (dropAcquired == false) {
+          bonusDrop(x);
+        } else {
+        }
       }
     }
   }
@@ -37,8 +41,9 @@ class NaveEnemy {
     enemDropYpos += 2;
     fill(255);
     circle(enemDropXpos, enemDropYpos, 30);
-    if (collisionDrop(p1.xpos, p1.ypos) == true) {
+    if (collisionDrop(p1.xpos, p1.ypos) == true && cooldownDrop == 0) {
     } else {
+      cooldownDrop++;
     }
   }
 
@@ -69,6 +74,7 @@ class NaveEnemy {
     float distHipotenusa = sqrt( sq(distX) + sq(distY) );
 
     if (distHipotenusa <= 15) {
+      dropAcquired = true;
       return true;
     } else {
       return false;
